@@ -52,6 +52,7 @@ class ProfileFrenchise(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     frenchise_name = models.CharField(max_length=30)
     Code = models.CharField(max_length=100)
+    email = models.EmailField(blank=True)
     DOB = models.DateField(max_length=8,null=True)
     gender = models.CharField(max_length=20)
     # Age = models.IntegerField(null=True)

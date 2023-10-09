@@ -33,6 +33,7 @@ def frenchise_registration_view(request):
         raw_state = request.POST.get('state')
         raw_city = request.POST.get('city')
         raw_dob      =  request.POST.get('dateInput')
+        raw_email = request.POST.get('email')
         # passs = number+"Nakshtravani@"
         passs = str(raw_password)
         print(passs)
@@ -51,7 +52,7 @@ def frenchise_registration_view(request):
         users = User.objects.get(username=raw_number)
             # user.is_active = False
         users.passwo = passs
-        ProfileFrenchise.objects.create(user=users,DOB=raw_dob,state=raw_state,city=raw_city,number=raw_number,Occupation=raw_occupation,Education=raw_education)
+        ProfileFrenchise.objects.create(user=users,DOB=raw_dob,state=raw_state,email=raw_email,city=raw_city,number=raw_number,Occupation=raw_occupation,Education=raw_education)
         # cate = c_form.save(commit=False)
         # users.is_active = False
         # users.save()
