@@ -72,14 +72,19 @@
   <div class="navbar-top mt-5">
     <div class="title">
         <h1>Employee Registration</h1>
+       
+    </div>
+
+    <div>
+        
     </div>
 
     <!-- Navbar -->
     <ul>
         <li>
-            <a href="#message">
-                <span class="icon-count">29</span>
-                <i class="fa fa-envelope fa-2x"></i>
+            <a href="{% url 'emp_registration' %}">
+                <!-- <span class="icon-count">29</span> -->
+                <!-- <button class="btn btn-primary my-2">Staff Sign Up</button> -->
             </a>
         </li>
         <li>
@@ -146,7 +151,9 @@
 
                 {{ e_form|crispy }}
                 <input type="submit" value="Submit" class="btn btn-primary my-2">
+              
             </form>
+           
         
 
 
