@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 from django.views import View
 from django.contrib.auth.models import User
-from .models import frenchise_register_model,frenchise_employee_register_model
+from .models import frenchise_register_model,frenchise_employee_register_model,ProfileFrenchise
 from .forms import FrenchiseRegistrationForm, frenchise_application_form, Employee_application_form
 from django.contrib.auth.decorators import login_required
 from fastapi.responses import RedirectResponse, HTMLResponse
@@ -19,20 +19,51 @@ def index(request):
 #registration
 def frenchise_registration_view(request):
     if request.method == 'POST':
-        r_form = FrenchiseRegistrationForm(data=request.POST)
+        # r_form = FrenchiseRegistrationForm(data=request.POST)
         # c_form = RolesForm(data=request.POST)
-        if r_form.is_valid():
-            user = r_form.save()
-            user.save()
-            # cate = c_form.save(commit=False)
-            # cate.user = user
-            # cate.save()
-            username = r_form.cleaned_data.get('username')
-            raw_password = r_form.cleaned_data.get('password')
-            # category = c_form.cleaned_data.get('category')
-            user = authenticate(username=username, password=raw_password)
-            return redirect('profile')
-        return render(request, 'frenchise/frenchise_registration.html',  {'r_form': r_form})
+        # if r_form.is_valid():
+
+        # username = r_form.cleaned_data.get('username')
+        name = request.POST.get('name')
+        # print(name)
+        raw_password = request.POST.get('password')
+        raw_education = request.POST.get('education')
+        raw_occupation = request.POST.get('occupation')
+        raw_number = request.POST.get('number')
+        raw_state = request.POST.get('state')
+        raw_city = request.POST.get('city')
+        raw_dob      =  request.POST.get('dateInput')
+        # passs = number+"Nakshtravani@"
+        passs = str(raw_password)
+        print(passs)
+        user = User.objects.create(
+            username=raw_number
+            # role='User',
+            # password=passs,
+        )
+        v = user.set_password(passs)
+        print(v)
+        # user.save()
+        print([name,raw_password,raw_city,raw_dob,raw_education,raw_state,raw_number,raw_occupation])
+        # user = r_form.save()
+        user.is_active = False
+        user.save()
+        users = User.objects.get(username=raw_number)
+            # user.is_active = False
+        users.passwo = passs
+        ProfileFrenchise.objects.create(user=users,DOB=raw_dob,state=raw_state,city=raw_city,number=raw_number,Occupation=raw_occupation,Education=raw_education)
+        # cate = c_form.save(commit=False)
+        # users.is_active = False
+        # users.save()
+
+        # cate.user = user
+        # cate.save()
+        
+
+        # category = c_form.cleaned_data.get('category')
+        # user = authenticate(username=username, password=raw_password)
+        return redirect('profile')
+        # return render(request, 'frenchise/frenchise_registration.html',  {'r_form': r_form})
         
     else:
         r_form = FrenchiseRegistrationForm()

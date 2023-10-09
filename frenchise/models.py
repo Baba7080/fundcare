@@ -48,9 +48,18 @@ class frenchise_employee_register_model(models.Model):
     employee_name = models.CharField(max_length=50)
     designation = models.CharField(max_length=100)
     
-    
-   
-
-   
-    
-
+class ProfileFrenchise(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    frenchise_name = models.CharField(max_length=30)
+    Code = models.CharField(max_length=100)
+    DOB = models.DateField(max_length=8,null=True)
+    gender = models.CharField(max_length=20)
+    # Age = models.IntegerField(null=True)
+    city =models.CharField(max_length=20,null=True)
+    state = models.CharField(max_length=100)
+    number = models.IntegerField(max_length=10)
+    Education = models.CharField(max_length=100)
+    Occupation = models.CharField(max_length=100)
+    Address_Type = models.CharField(max_length=50)
+    def __str__(self):
+        return f"{self.number}"

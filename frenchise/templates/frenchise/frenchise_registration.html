@@ -88,13 +88,61 @@
                     {% csrf_token %}
                     <div id="forms"></div>
                     {% if messages %}
-                    {% for message in messages %}>
+                    {% for message in messages %}
                     <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5"{% endif %}>{{message}}</p>
                     {% endfor %}
                     {% endif %}
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Enter Your Name</label>
+                        <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Enter Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Enter Your Contact Number</label>
+                        <input type="number" name="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter Your Contact Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label name="education" for="exampleFormControlSelect1">Enter Your Education</label><br>
+                        <select class="form-control" name = "education" id="exampleFormControlSelect1" required>
+                            <option>Graduate</option>
+                            <option>Post Graduate</option>
+                            <option>Undergraduate</option>
+                            <option>Other</option>
+                        </select><br>
+                    </div><br>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">State</label>
+                        <input type="text" name="state" class="form-control" id="exampleFormControlInput1" placeholder="State" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">City</label>
+                        <input type="text" name="city" class="form-control" id="exampleFormControlInput1" placeholder="City" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Enter Your Occupation</label><br>
+                        <select class="form-control" name="occupation" id="exampleFormControlSelect1" required>
+                            <option>Job</option>
+                            <option>Seeker</option>
+                            <option>Self Employed</option>
+                            <option>Freelancer</option>
+                            <option>Other</option>
+                        </select><br>
+                    </div><br>
+                    <div class="form-group">
+                        <label for="dateInput">Select a Date:</label>
+                        <input type="date" class="form-control" id="dateInput" name="dateInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateInput">create password</label>
+                        <input type="password" class="form-control" name="password" id="exampleFormControlInput1" required name="Enter Your Password" required>
+                    </div>
 
-                    {{ r_form|crispy }}
-            
+                    
+                    
+                    {% comment %} {{ r_form|crispy }} {% endcomment %}
+                    {% comment %} <div class="form-group">
+                        <label for="exampleFormControlFile1">Example file input</label>
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    </div> {% endcomment %}
 
 
                     <input type="submit" value="Submit" class="btn btn-primary my-2">
@@ -156,7 +204,7 @@
                     <br>
                     <div class="text-center text-primary fw-bold">
                         <small>Existing User ? <a href="#"class="text-danger">Login Now</a></small>
-                    </div> --> -->
+                    </div> -->
   
                   </form>
   

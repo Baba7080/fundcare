@@ -1,7 +1,8 @@
 from django.contrib import admin
 from .models import(
     frenchise_register_model,
-    frenchise_employee_register_model
+    frenchise_employee_register_model,
+    ProfileFrenchise
     
 )
 
@@ -17,3 +18,4 @@ class frenchise_admin(admin.ModelAdmin):
 class employee_admin(admin.ModelAdmin):
     list_display = ['employee_id','employee_name', 'designation'
     ]
+admin.site.register(ProfileFrenchise)
