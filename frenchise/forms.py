@@ -127,6 +127,9 @@ class FrenchiseRegistrationForm(UserCreationForm):
 
 
 
+
+
+
 #Login Form
 class LoginForm(AuthenticationForm):
     username = UsernameField(widget=forms.TextInput(attrs={'autofocus':True, 'class':'form-control'}))
@@ -158,12 +161,12 @@ class frenchise_application_form(forms.ModelForm):
 class Employee_application_form(forms.ModelForm):
     class Meta:
         model = frenchise_employee_register_model
-        fields = ['employee_id','employee_name', 'designation']
+        fields = ['employee_id', 'email', 'username','password']
 
    
-        widgets = { 'employee_id':forms.TextInput(attrs={'class':'form-control'}),
-                'employee_name':forms.TextInput(attrs={'class':'form-control'}),
-                'designation':forms.TextInput(attrs={'class':'form-control'}),
+        widgets = { 'username':forms.TextInput(attrs={'class':'form-control'}),
+                'password':forms.TextInput(attrs={'class':'form-control'}),
+              
             }
 
 

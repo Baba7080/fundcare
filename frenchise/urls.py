@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('dashboard/', views.dashboard, name= 'dashboard'),
 
+    path('Employee-registration/', views.employee_registration_view, name= 'emp_registration'),
     path('employee/', views.employee_view, name= 'employee'),
     path('confirmation/', views.frenchise_confirmation, name= 'confirmation'),
 
