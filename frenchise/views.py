@@ -89,10 +89,18 @@ def employee_view(request):
     
 
 def dashboard(request):
-    add = frenchise_employee_register_model.objects.filter(user=request.user)
-    return render(request, 'frenchise/frenchise_dashboard.html', {'add': add})
+    e_register = frenchise_employee_register_model.objects.filter(user=request.user)
+    f_register = frenchise_register_model.objects.filter(user=request.user)
+    return render(request, 'frenchise/frenchise_dashboard.html', {'e_register': e_register, 'f_register':f_register})
 
 
 
 def frenchise_confirmation(request):
     return render(request, 'frenchise/wait_for_confirmation.html')
+
+
+def employee_dashboard_view(request):
+    return render(request, 'frenchise/employee_dashboard.html')
+
+def edit_employee_dashboard_view(request):
+    return render(request, 'frenchise/edit_employee_dashboard.html')

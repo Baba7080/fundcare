@@ -11,8 +11,6 @@ urlpatterns = [
     
     path('', views.index, name='home'),
     path('register/', views.frenchise_registration_view, name= 'register'),
-    
-    # path('blog/', views.p, name= 'blog'),
     path('profile/', views.profile, name= 'profile'),
 
     path('dashboard/', views.dashboard, name= 'dashboard'),
@@ -24,6 +22,16 @@ urlpatterns = [
     # path('frenchise-application/', views.frenchise_apply_view, name= 'a_frenchise'),
 
 
+    #Employee URLS
+    path('emp-dashboard/', views.employee_dashboard_view, name= 'e_dashboard'),
+    path('edit-emp-dashboard/', views.employee_dashboard_view, name= 'edit_e_dashboard'),
+
+
+
+
+
+
+    #Authentication URLS
     path('accounts/login/',auth_views.LoginView.as_view(template_name='frenchise/login.html',authentication_form=LoginForm),name='login'),
     #  3-Logout
     path('logout/', auth_views.LogoutView.as_view(next_page='login'),name='logout'),

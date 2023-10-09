@@ -44,7 +44,6 @@ class frenchise_register_model(models.Model):
 
 class frenchise_employee_register_model(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
     employee_id = models.PositiveIntegerField()
     employee_name = models.CharField(max_length=50)
     designation = models.CharField(max_length=100)
