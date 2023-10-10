@@ -10,12 +10,22 @@ from .forms import LoginForm,  MyPasswordChangeForm, MyPasswordResetForm, MySetP
 urlpatterns = [
     
     path('', views.index, name='home'),
+    path('about/', views.about_view, name= 'about'),
+    path('services/', views.Services_view, name= 'services'),
+    path('blog/', views.blog_view, name= 'blog'),
+    path('blog-details/', views.blog_details_view, name= 'blog_details'),
+    path('contact/', views.contact_view, name= 'contact'),
+
+
+    path('emp-details/<int:empid>/', views.edit_employee_dashboard_view, name= 'emp_details'),
     path('register/', views.frenchise_registration_view, name= 'register'),
     path('profile/', views.profile, name= 'profile'),
 
     path('dashboard/', views.dashboard, name= 'dashboard'),
+    path('apply-loan/', views.apply_loan_view, name= 'apply_loan'),
 
-    path('Employee-registration/', views.employee_registration_view, name= 'emp_registration'),
+    path('Employee-registration/', views.employee_view, name= 'emp_registration'),
+    
     path('employee/', views.employee_view, name= 'employee'),
     path('confirmation/', views.frenchise_confirmation, name= 'confirmation'),
 

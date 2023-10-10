@@ -17,16 +17,11 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'frenchise/index.html' )
 
-#registration
+# Frenchise Registration
 def frenchise_registration_view(request):
     if request.method == 'POST':
-        # r_form = FrenchiseRegistrationForm(data=request.POST)
-        # c_form = RolesForm(data=request.POST)
-        # if r_form.is_valid():
 
-        # username = r_form.cleaned_data.get('username')
         name = request.POST.get('name')
-        # print(name)
         raw_password = request.POST.get('password')
         raw_education = request.POST.get('education')
         raw_occupation = request.POST.get('occupation')
@@ -53,7 +48,7 @@ def frenchise_registration_view(request):
         users = User.objects.get(username=raw_number)
             # user.is_active = False
         users.passwo = passs
-        ProfileFrenchise.objects.create(user=users,DOB=raw_dob,state=raw_state,email=raw_email,city=raw_city,number=raw_number,Occupation=raw_occupation,Education=raw_education)
+        ProfileFrenchise.objects.create(user=users,DOB=raw_dob,state=raw_state,email=raw_email,city=raw_city,number=raw_number,Occupation=raw_occupation,Education=raw_education,Role="Frenchise")
         send_mail(
         "Request for frenchise",
         "Your request for a franchise is under review. Our team will get back to you within 24 hours.",
@@ -92,10 +87,30 @@ def frenchise_application_view(request):
         a_form = frenchise_application_form()
         return render(request, 'frenchise/frenchise_apply_form.html', {'a_form': a_form})
 
- 
+#About
+def about_view(request):
+    return render(request, 'frenchise/about.html' )
+
+#Services 
+def Services_view(request):
+    return render(request, 'frenchise/services.html' )
+
+#Blog 
+def blog_view(request):
+    return render(request, 'frenchise/blog.html' )
+
+#Blog Details
+def blog_details_view(request):
+    return render(request, 'frenchise/blog_details.html' )
+
+#Contact Us
+def contact_view(request):
+    return render(request, 'frenchise/contact.html' )
 
 
 
+
+#
 def profile(request):
     return render(request, 'frenchise/frenchise_profile.html' )
 
@@ -112,9 +127,10 @@ def employee_view(request):
         employee_ids = request.POST.get('employee_id')
         emails = request.POST.get('email')
         usernames = request.POST.get('username')
+        usernames = usernames+"_emp"
         passwords = request.POST.get('password')
         employee_creation = frenchise_employee_register_model.objects.create(user=request.user, employee_id=employee_ids,email=emails,username=usernames, password=passwords)       
-        usernames = usernames +'_emp'
+        # usernames = usernames +'_emp'
         user = User.objects.create(
             username=  usernames
         
@@ -171,21 +187,74 @@ def employee_view(request):
 
     
 #dashboard
+@login_required
 def dashboard(request):
-    e_register = frenchise_employee_register_model.objects.filter(user=request.user)
-    f_register = frenchise_register_model.objects.filter(user=request.user)
-    return render(request, 'frenchise/frenchise_dashboard.html', {'e_register': e_register, 'f_register':f_register})
+    loginUser = request.user
+    n = loginUser.username
+    words = n.split()
+    print(words)
+    check = True
+    print(len(n))
+    if len(n) > 4:
+        checkforemp  = n[-4:]
+
+        if checkforemp == '_emp':
+            check = False
+
+        
+    # profiledata = ProfileFrenchise.objects.get(user=loginUser)
+    print(check)
+    if check:
+        f_register = frenchise_register_model.objects.filter(user=request.user)
+        e_register = frenchise_employee_register_model.objects.filter(user=request.user)
+
+        return render(request, 'frenchise/frenchise_dashboard.html', {'e_register':e_register,'f_register':f_register})
+    else:
+        e_register = frenchise_employee_register_model.objects.filter(username=n)
+        return render(request, 'frenchise/employee_dashboard.html', {'e_register': e_register})
 
 
+
+def apply_loan_view(request):
+    return render(request, 'frenchise/apply_loan.html')
 
 def frenchise_confirmation(request):
     return render(request, 'frenchise/wait_for_confirmation.html')
 
 def employee_registration_view(request):
-    return render(request, 'frenchise/employee_registration.html')
+    return render(request, 'frenchise/employee.html')
 
 def employee_dashboard_view(request):
     return render(request, 'frenchise/employee_dashboard.html')
 
-def edit_employee_dashboard_view(request):
-    return render(request, 'frenchise/edit_employee_dashboard.html')
+
+@login_required
+def edit_employee_dashboard_view(request, empid):
+    loginUser = request.user.username
+    # getEmployee = frenchise_employee_register_model.objects.filter(id=empid)
+    if request.method == 'POST':
+        getEmployee = frenchise_employee_register_model.objects.get(id=empid)
+        employee_user = getEmployee.user.username
+        email = getEmployee.email
+        e_fm = Employee_application_form(request.POST, instance=getEmployee)
+        if e_fm.is_valid():
+            e_fm.save()
+
+        else:
+            getEmployee = frenchise_employee_register_model.objects.get(id=empid)
+            e_fm = Employee_application_form(instance=getEmployee)
+
+        return render(request,'frenchise/edit_employee_dashboard.html', {'employeData':getEmployee})
+
+
+
+    loginUser = request.user.username
+    # getEmployee = frenchise_employee_register_model.objects.filter(id=empid)
+    getEmployee = frenchise_employee_register_model.objects.get(id=empid)
+    employee_user = getEmployee.user.username
+    email = getEmployee.email
+
+
+    if loginUser == employee_user:
+        
+        return render(request, 'frenchise/edit_employee_dashboard.html',{'employeData':getEmployee})
