@@ -57,6 +57,7 @@ class frenchise_employee_register_model(models.Model):
     email = models.EmailField(null=False, blank=False, default= 'employee@gmail.com')
     username = models.CharField(max_length=15,null=False, blank=False, default='Username')
     password = models.CharField(max_length=50)
+    # Role = models.CharField(max_length=120,default="not specified")
    
     
 class ProfileFrenchise(models.Model):
@@ -73,5 +74,6 @@ class ProfileFrenchise(models.Model):
     Education = models.CharField(max_length=100)
     Occupation = models.CharField(max_length=100)
     Address_Type = models.CharField(max_length=50)
+    Role = models.CharField(max_length=120,default="not specified")
     def __str__(self):
         return f"{self.number}"
