@@ -233,16 +233,24 @@ def edit_employee_dashboard_view(request, empid):
     loginUser = request.user.username
     # getEmployee = frenchise_employee_register_model.objects.filter(id=empid)
     if request.method == 'POST':
-        getEmployee = frenchise_employee_register_model.objects.get(id=empid)
-        employee_user = getEmployee.user.username
-        email = getEmployee.email
-        e_fm = Employee_application_form(request.POST, instance=getEmployee)
-        if e_fm.is_valid():
-            e_fm.save()
+        print("inpost")
+        emails = request.POST.get('email')
+        employeeuiid = request.POST.get('employeId')
+        empIds = request.POST.get('empIds')
+        print(emails)
 
-        else:
-            getEmployee = frenchise_employee_register_model.objects.get(id=empid)
-            e_fm = Employee_application_form(instance=getEmployee)
+        # Update the record using a queryset with the filter condition
+        frenchise_employee_register_model.objects.filter(id=empIds).update(email=emails, employee_id=employeeuiid)
+
+        # employee_user = getEmployee.user.username
+        # email = getEmployee.email
+        # e_fm = Employee_application_form(request.POST, instance=getEmployee)
+        # if e_fm.is_valid():
+        #     e_fm.save()
+
+        # else:
+        getEmployee = frenchise_employee_register_model.objects.get(id=empid)
+        e_fm = Employee_application_form(instance=getEmployee)
 
         return render(request,'frenchise/edit_employee_dashboard.html', {'employeData':getEmployee})
 
