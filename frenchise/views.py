@@ -204,6 +204,13 @@ def dashboard(request):
         
     # profiledata = ProfileFrenchise.objects.get(user=loginUser)
     print(check)
+    if loginUser.is_superuser:
+        allUser = User.objects.all()
+        users_without_emp = User.objects.exclude(username__endswith='_emp')
+        return render(request,'frenchise/admin_dashboard.html',{'usersWithout':users_without_emp})
+        # print(users_without_emp)
+        # for i in users_without_emp:
+        #     print(i)
     if check:
         f_register = frenchise_register_model.objects.filter(user=request.user)
         e_register = frenchise_employee_register_model.objects.filter(user=request.user)
