@@ -1,0 +1,93 @@
+{% extends 'frenchise/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+{% block home-page %}
+<!-- Preloader Start -->
+
+<main>
+<br> 
+
+<div class="container mt-5">
+
+    <div class="mt-5">
+        <br><br>
+    </div> 
+     <div class="row">
+        <div class="col-8">
+            <div class="profile">
+                <div class="name">
+                   Welcome  {{request.user.username}}
+                </div>
+                <div class="job">
+                    {{request.user}}
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="container">
+            <div class="row">
+                <div class="col-6">
+
+                            <a href="{% url 'appllyloan' %}" class="btn btn-primary">Apply For Loan</a>
+                            <hr align="center">
+                     
+
+                </div>
+                <div class="col-6">
+                    {% comment %} <div class="sidenav-url "> {% endcomment %}
+                        <a href="{% url 'appllyinsurance' %}" class="btn btn-primary">Apply For Insurance</a>
+                        <hr align="center">
+                     {% comment %} </div> {% endcomment %}
+                </div>
+                
+            </div>
+    </div>
+        
+
+
+    <h2>SOCIAL MEDIA</h2>
+    {% comment %} <div class="card ">
+        <div class="card-body">
+            <i class="fa fa-pen fa-xs edit"></i>
+            <div class="social-media">
+                <span class="fa-stack fa-sm">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-sm">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-sm">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-sm">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-invision fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-sm">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-sm">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-whatsapp fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-sm">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-snapchat fa-stack-1x fa-inverse"></i>
+                </span>
+            </div>
+        </div>
+    </div> {% endcomment %}
+</div>
+<!-- End -->
+
+
+
+
+
+{% endblock home-page %}

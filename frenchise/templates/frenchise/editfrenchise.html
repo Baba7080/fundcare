@@ -1,0 +1,133 @@
+{% extends 'frenchise/base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+{% block home-page %}
+<main>
+    <br> 
+    {% comment %} <hr> {% endcomment %}
+      
+      <!-- Navbar top -->
+    
+    <!-- End -->
+    
+    <!-- Sidenav -->
+    {% comment %} <div class="sidenav mr-5 mt-4">
+        <div class="profile">
+            <img src="https://imdezcode.files.wordpress.com/2020/02/imdezcode-logo.png" alt="" width="100" height="100">
+    
+            <div class="name">
+                {{request.user.username}}
+            </div>
+            <div class="job">
+                {{request.user}}
+            </div>
+        </div>
+    
+        <div class="sidenav-url">
+            <div class="url">
+                <a href="{% url 'dashboard' %}" class="active">Profile</a>
+                <hr align="center">
+            </div>
+         
+    
+        </div>
+    </div> {% endcomment %}
+    <!-- End -->
+    
+    <!-- Main -->
+    <div class="container main mt-5">
+    
+        <div class="mt-5">
+            <br><br>
+        </div> 
+         <div class="row">
+            <div class="col-4">
+                <div class="profile">
+                    <div class="name">
+                       Welcome  {{request.user.username}}
+                    </div>
+                    <div class="job">
+                        {{request.user}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="sidenav-url ml-3">
+                    {% comment %} <div class="url"> {% endcomment %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-primary">Profile</a>
+                        <hr align="center">
+                    {% comment %} </div> {% endcomment %}
+                 
+            
+                </div>
+            </div>
+        </div> 
+        {% comment %} <div class="container card m-5"> {% endcomment %}
+            <div class="card-body">
+                <i class="fa fa-pen fa-xs edit"></i>
+                <form action="" method="post" novalidate class="shadow p-3 p-md-5">
+                    {% csrf_token %}
+                    <div id="forms"></div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p {% if message.tags %} class="alert alert-{{message.tags}} my-3"{% endif %}>{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" name="status" id="status" required>
+                            {% if userdata.is_active %}
+                            <option value="active">Active</option>
+                            <option value="deactivate">Deactivate</option>
+                            {% else %}
+                            <option value="deactivate">Deactivate</option>
+                            <option value="active">Active</option>
+                            {% endif %}
+                        </select>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="employee_id">Employee Name</label>
+                        <input type="text" name="name" class="form-control" value="{{profileDta.frenchise_name}}" placeholder="Enter Your Employee Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Frenchise Code</label>
+                        <input type="email" name="code" class="form-control" value="{{profileDta.Code}}" placeholder="Enter Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Date Of Birth</label>
+                        <input type="text" name="dob" class="form-control" value="{{profileDta.DOB}}" placeholder="Enter Your Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" name="city" class="form-control" value="{{profileDta.city}}" placeholder="Enter Your city" >
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" name="state" class="form-control" value="{{profileDta.state}}" placeholder="Enter Your state" >
+                    </div>
+                    <div class="form-group">
+                        <label for="number">Number</label>
+                        <input type="text" name="number" class="form-control" value="{{profileDta.number}}" placeholder="Enter Your state" >
+                    </div>
+                    <div class="form-group">
+                        <label for="education">Education</label>
+                        <input type="text" name="education" class="form-control" value="{{profileDta.Education}}" placeholder="Enter Your state" >
+                    </div>
+                    <div class="form-group">
+                        <label for="Occupation">Occupation</label>
+                        <input type="text" name="Occupation" class="form-control" value="{{profileDta.Occupation}}" placeholder="Enter Your Occupation" >
+                    </div>
+                    <div class="form-group">
+                        <label for="Address_Type">Address Type</label>
+                        <input type="text" name="address" class="form-control" value="{{profileDta.Address_Type}}" placeholder="Enter Your Address" >
+                    </div>
+                    <input type="hidden" value="{{profileDta.id}}" name="profileid">
+                    <input type="hidden" value="{{userdata.id}}" name="userdataid">
+                    <button type="submit" class="btn btn-primary my-2">Submit</button>
+                </form>
+            </div>
+    </div>
+
+
+{% endblock home-page %}

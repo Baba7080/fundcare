@@ -16,12 +16,18 @@ urlpatterns = [
     path('blog-details/', views.blog_details_view, name= 'blog_details'),
     path('contact/', views.contact_view, name= 'contact'),
 
+    path('admin-frenchise-dashboard/', views.frenchise_dashboard_admin_view, name= 'admin_frenchise'),
+    path('admin-employee-dashboard/', views.frenchise_employee_admin_view, name= 'admin_employee'),
+
+
+
 
     path('emp-details/<int:empid>/', views.edit_employee_dashboard_view, name= 'emp_details'),
     path('register/', views.frenchise_registration_view, name= 'register'),
     path('profile/', views.profile, name= 'profile'),
 
     path('dashboard/', views.dashboard, name= 'dashboard'),
+    path('alldata/<int:frenchid>', views.all_frenchise_employe_view, name= 'alldata'),
     path('apply-loan/', views.apply_loan_view, name= 'apply_loan'),
 
     path('Employee-registration/', views.employee_view, name= 'emp_registration'),
@@ -37,8 +43,7 @@ urlpatterns = [
     path('emp-dashboard/', views.employee_dashboard_view, name= 'e_dashboard'),
     path('edit-emp-dashboard/', views.employee_dashboard_view, name= 'edit_e_dashboard'),
 
-
-
+    path('employee_data_chart/', views.employee_data_chart, name='employee_data_chart'),
 
 
 
@@ -59,4 +64,8 @@ urlpatterns = [
         ,form_class=MySetPasswordForm), name='password_reset_confirm'),
     path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='frenchise/password_reset_complete.html')
         ,name='password_reset_complete'),
+
+    path('appllyloan',views.appllyloan,name='appllyloan'),
+    path('appllyinsurance',views.appllyloan,name='appllyinsurance'),
+    path('editfrenchise/<int:frenchid>',views.editfrenchise,name='editfrenchise')
 ]
