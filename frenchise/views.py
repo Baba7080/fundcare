@@ -116,6 +116,8 @@ def profile(request):
 
 
 
+
+
 @login_required
 def employee_view(request):
 
@@ -183,7 +185,35 @@ def employee_view(request):
         # If the request method is not POST, render the employee application form
         emp_form = Employee_application_form()
         return render(request, 'frenchise/employee_dashboard.html', {'emp_form': emp_form})
+    
 
+#frenchise status True or False
+
+def check_active_frenchise(request):
+    if request.method == 'POST':
+        active_user = request.POST.get('activeuser')
+        if active_user:
+            user = User.objects.get(pk=active_user)
+            user.is_active = True
+            user.save()
+        # if request.POST.get('activeuser'):
+        #     allUser = User.objects.all()
+        #     data = User()
+        #  
+        #     data.is_active = request.POST.get('activeuser')
+        #     data.save()
+            
+            return render(request,'frenchise/admin_dashboard.html')
+    else:
+        
+        return render(request,'frenchise/admin_dashboard.html')
+            
+
+def all_frenchise_employe_view(request):
+
+    # f_data = frenchise_register_model.objects.filter(user=request.user)
+    e_data = frenchise_employee_register_model.objects.filter(user=request.user)
+    return render(request, 'frenchise/all_frenchise_employee_dashboard.html', {'e_data':e_data})
 
     
 #dashboard
@@ -204,6 +234,24 @@ def dashboard(request):
         
     # profiledata = ProfileFrenchise.objects.get(user=loginUser)
     print(check)
+    if loginUser.is_superuser:
+        allUser = User.objects.all()
+        users_without_emp = User.objects.exclude(username__endswith='_emp')
+
+
+        # user_form = FrenchiseRegistrationForm(data = User.username.is_active)
+        # if User.username.is_active == True:
+            
+        #     if user_form.is_valid():
+        #         User.is_active == True
+        #         user_form.save()
+
+
+
+        return render(request,'frenchise/admin_dashboard.html',{'usersWithout':users_without_emp})
+        # print(users_without_emp)
+        # for i in users_without_emp:
+        #     print(i)
     if check:
         f_register = frenchise_register_model.objects.filter(user=request.user)
         e_register = frenchise_employee_register_model.objects.filter(user=request.user)
@@ -266,3 +314,13 @@ def edit_employee_dashboard_view(request, empid):
     if loginUser == employee_user:
         
         return render(request, 'frenchise/edit_employee_dashboard.html',{'employeData':getEmployee})
+    
+
+
+#Admin Franchise Dashboard
+
+def frenchise_dashboard_admin_view(request):
+    return render(request, 'frenchise/frenchise_dashboard_admin.html')
+
+def frenchise_employee_admin_view(request):
+    return render(request, 'frenchise/frenchise_employee_admin.html')

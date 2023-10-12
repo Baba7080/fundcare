@@ -16,12 +16,18 @@ urlpatterns = [
     path('blog-details/', views.blog_details_view, name= 'blog_details'),
     path('contact/', views.contact_view, name= 'contact'),
 
+    path('admin-frenchise-dashboard/', views.frenchise_dashboard_admin_view, name= 'admin_frenchise'),
+    path('admin-employee-dashboard/', views.frenchise_employee_admin_view, name= 'admin_employee'),
+
+
+
 
     path('emp-details/<int:empid>/', views.edit_employee_dashboard_view, name= 'emp_details'),
     path('register/', views.frenchise_registration_view, name= 'register'),
     path('profile/', views.profile, name= 'profile'),
 
     path('dashboard/', views.dashboard, name= 'dashboard'),
+    path('all-frenchise-employe-details/', views.all_frenchise_employe_view, name= 'alldata'),
     path('apply-loan/', views.apply_loan_view, name= 'apply_loan'),
 
     path('Employee-registration/', views.employee_view, name= 'emp_registration'),
