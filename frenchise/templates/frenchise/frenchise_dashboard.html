@@ -14,7 +14,7 @@
   <!-- Navbar top -->
     <div class="navbar-top mt-5">
         <div class="title">
-            <h1>Apply for Frenchise</h1>
+            <h1>Your Employee Details</h1>
         </div>
 
         <!-- Navbar -->
@@ -39,7 +39,7 @@
     <!-- End -->
 
     <!-- Sidenav -->
-    <div class="sidenav">
+    <div class="sidenav mt-5">
         <div class="profile">
             <img src="https://imdezcode.files.wordpress.com/2020/02/imdezcode-logo.png" alt="" width="100" height="100">
 
@@ -54,10 +54,6 @@
         <div class="sidenav-url">
             <div class="url">
                 <a href="{% url 'dashboard' %}" class="active">Profile</a>
-                <hr align="center">
-            </div>
-            <div class="url">
-                <a href="{% url 'applyfrenchise' %}" class="active">Apply for Frenchise</a>
                 <hr align="center">
             </div>
 
@@ -89,7 +85,7 @@
                     <tbody>
                     {% for ad in e_register %}
                         <tr>
-                          <th scope="row">1</th>
+                          <th scope="row">{{forloop.counter}}</th>
                           <td>{{ad.employee_id}}</td>
                           <td>{{ad.email}}</td>
                           <td>{{ad.username}}</td>

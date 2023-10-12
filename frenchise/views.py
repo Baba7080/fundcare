@@ -10,10 +10,13 @@ from django.contrib.auth.decorators import login_required
 from fastapi.responses import RedirectResponse, HTMLResponse
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
-
-
+from django.shortcuts import get_object_or_404
+from companystaff.models import *
+from datetime import datetime
 # Create your views here.
-
+# import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 def index(request):
     return render(request, 'frenchise/index.html' )
 
@@ -116,6 +119,8 @@ def profile(request):
 
 
 
+
+
 @login_required
 def employee_view(request):
 
@@ -126,10 +131,11 @@ def employee_view(request):
             # Validate the employee ID and email address
         employee_ids = request.POST.get('employee_id')
         emails = request.POST.get('email')
+        name = request.POST.get('name')
         usernames = request.POST.get('username')
         usernames = usernames+"_emp"
         passwords = request.POST.get('password')
-        employee_creation = frenchise_employee_register_model.objects.create(user=request.user, employee_id=employee_ids,email=emails,username=usernames, password=passwords)       
+        employee_creation = frenchise_employee_register_model.objects.create(user=request.user,name=name, employee_id=employee_ids,email=emails,username=usernames, password=passwords)       
         # usernames = usernames +'_emp'
         user = User.objects.create(
             username=  usernames
@@ -183,9 +189,98 @@ def employee_view(request):
         # If the request method is not POST, render the employee application form
         emp_form = Employee_application_form()
         return render(request, 'frenchise/employee_dashboard.html', {'emp_form': emp_form})
-
-
     
+
+#frenchise status True or False
+
+def check_active_frenchise(request):
+    if request.method == 'POST':
+        active_user = request.POST.get('activeuser')
+        if active_user:
+            user = User.objects.get(pk=active_user)
+            user.is_active = True
+            user.save()
+        # if request.POST.get('activeuser'):
+        #     allUser = User.objects.all()
+        #     data = User()
+        #  
+        #     data.is_active = request.POST.get('activeuser')
+        #     data.save()
+            
+            return render(request,'frenchise/admin_dashboard.html')
+    else:
+        
+        return render(request,'frenchise/admin_dashboard.html')
+            
+@login_required
+def all_frenchise_employe_view(request,frenchid):
+    loginUser = request.user
+    if loginUser.is_superuser:
+        user = get_object_or_404(User, id=frenchid)
+        
+        # You can directly access the username using user.username
+        usernm = user.username
+        print(usernm)
+        # Query the 'frenchise_employee_register_model' model using the retrieved username
+        e_data = frenchise_employee_register_model.objects.filter(user=user)
+        all_data = []
+        for data in e_data:
+            u = data.user
+            usernames = data.username
+            userdataemp = User.objects.filter(username=usernames)
+            # print
+            for i in userdataemp:
+                usrnme = i.id
+            loandata = Loan.objects.filter(user=usrnme)
+            count_loan = loandata.count()
+            print(count_loan)
+
+            insurance_data = Insurance.objects.filter(user=usrnme)
+            count_insurance = insurance_data.count()
+
+            total_sales = count_loan + count_insurance
+
+            data_dict = {
+                'id': data.id,
+                'employee_id':data.employee_id,
+                'username': data.username,
+                'email': data.email,
+                'total':total_sales,
+                'loan':count_loan,
+                'insurance':count_insurance
+            }
+            all_data.append(data_dict)
+        return render(request, 'frenchise/all_frenchise_employee_dashboard.html', {'e_data': all_data})
+
+def employee_data_chart(request):
+    # Sample employee data (replace with your actual data)
+    employees = ['Employee 1', 'Employee 2', 'Employee 3']
+    loan_counts = [5, 8, 3]
+    insurance_counts = [2, 6, 1]
+
+    # Create a bar chart
+    plt.figure(figsize=(8, 4))
+    plt.bar(employees, loan_counts, label='Loans')
+    plt.bar(employees, insurance_counts, bottom=loan_counts, label='Insurance')
+
+    plt.xlabel('Employees')
+    plt.ylabel('Count')
+    plt.title('Loan and Insurance Data for Employees')
+    plt.legend()
+
+    # Save the chart to a BytesIO object
+    chart_buffer = BytesIO()
+    plt.savefig(chart_buffer, format='png')
+    chart_buffer.seek(0)
+    chart_data = base64.b64encode(chart_buffer.read()).decode()
+    plt.close()
+
+    context = {
+        'chart_data': chart_data,
+    }
+
+    return render(request, 'your_template.html', context)
+
 #dashboard
 @login_required
 def dashboard(request):
@@ -204,6 +299,13 @@ def dashboard(request):
         
     # profiledata = ProfileFrenchise.objects.get(user=loginUser)
     print(check)
+    if loginUser.is_superuser:
+        allUser = User.objects.all()
+        users_without_emp = User.objects.exclude(username__endswith='_emp')
+        return render(request,'frenchise/admin_dashboard.html',{'usersWithout':users_without_emp})
+        # print(users_without_emp)
+        # for i in users_without_emp:
+        #     print(i)
     if check:
         f_register = frenchise_register_model.objects.filter(user=request.user)
         e_register = frenchise_employee_register_model.objects.filter(user=request.user)
@@ -211,7 +313,72 @@ def dashboard(request):
         return render(request, 'frenchise/frenchise_dashboard.html', {'e_register':e_register,'f_register':f_register})
     else:
         e_register = frenchise_employee_register_model.objects.filter(username=n)
-        return render(request, 'frenchise/employee_dashboard.html', {'e_register': e_register})
+        return render(request, 'frenchise/employesales.html', {'e_register': e_register})
+@login_required
+def editfrenchise(request,frenchid):
+    users = request.user
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        name = request.POST.get('name')
+        address = request.POST.get('address')
+        Occupation = request.POST.get('Occupation')
+        education = request.POST.get('education')
+        number = request.POST.get('number')
+        states = request.POST.get('state')
+        citys = request.POST.get('city') 
+        dateob = request.POST.get('dob')
+        coded = request.POST.get('code')
+        profileid = request.POST.get('profileid')
+        userid = request.POST.get('userdataid')
+        date_string = "Oct. 3, 2023"
+
+        # Parse the date string to a datetime object
+        date_obj = datetime.strptime(date_string, "%b. %d, %Y")
+        print(status)
+        if status == 'active':
+            status = True
+        else:
+            status = False
+        print(status)
+        
+        # Format the datetime object to the desired format
+        formatted_date = date_obj.strftime("%Y-%m-%d")
+        update = ProfileFrenchise.objects.filter(id=profileid).update(frenchise_name=name,Code=coded, DOB=formatted_date,Address_Type=address,Occupation=Occupation,Education=education,number=number,city=citys,state=states)
+        updates = User.objects.filter(id=userid).update(is_active=status)
+        getIduser = User.objects.get(id=userid)
+        user = get_object_or_404(User, id=userid)
+        # try:
+        getIduser = User.objects.get(id=userid)
+        getidProfile = ProfileFrenchise.objects.get(user=getIduser)
+        return render(request,'frenchise/editfrenchise.html',{'userdata':getIduser,'profileDta':getidProfile})
+        # print(status)
+    if users.is_superuser:
+        
+        getIduser = User.objects.get(id=frenchid)
+        user = get_object_or_404(User, id=frenchid)
+        try:
+            getIduser = User.objects.get(id=frenchid)
+            getidProfile = ProfileFrenchise.objects.get(user=getIduser)
+            # Now you can access the ProfileFrenchise data associated with the specific user
+            print(getidProfile)
+        except User.DoesNotExist:
+            # Handle the case where the User with the given frenchid doesn't exist
+            getIduser = None
+            getidProfile = None
+            return HttpResponse("user not exist")
+        except ProfileFrenchise.DoesNotExist:
+            # Handle the case where the ProfileFrenchise for the User doesn't exist
+            getidProfile = None
+            return HttpResponse("Profile not exist")
+
+        if getidProfile:
+            print(getidProfile)
+            print(getidProfile)
+            return render(request,'frenchise/editfrenchise.html',{'userdata':getIduser,'profileDta':getidProfile})
+
+            # The ProfileFrenchise object exists and can be used here.
+        else:
+            return HttpResponse("else")
 
 
 
@@ -266,3 +433,30 @@ def edit_employee_dashboard_view(request, empid):
     if loginUser == employee_user:
         
         return render(request, 'frenchise/edit_employee_dashboard.html',{'employeData':getEmployee})
+    
+
+
+#Admin Franchise Dashboard
+
+def frenchise_dashboard_admin_view(request):
+    return render(request, 'frenchise/frenchise_dashboard_admin.html')
+
+def frenchise_employee_admin_view(request):
+    return render(request, 'frenchise/frenchise_employee_admin.html')
+
+@login_required
+def appllyloan(request):
+    if request.method == 'POST':
+        users = request.user
+        name = request.POST.get('name')
+        emails = request.POST.get('email')
+        amount = request.POST.get('amount')
+        type = request.POST.get('type')
+        number = request.POST.get('number')
+        pan = request.POST.get('pan')
+        print([name,emails,amount,type,number])
+        createloan = Loan.objects.create(user=users,clientName=name,type=type,PAN=pan,number=number,amount=amount,email=emails)
+        
+        return render(request,'frenchise/apply_loan.html')
+
+    return render(request,'frenchise/apply_loan.html')
