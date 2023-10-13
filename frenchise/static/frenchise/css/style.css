@@ -8664,7 +8664,7 @@ body{
 
 /* all frenchise employe data dashboard */
 
-body {
+/* body {
   position: relative;
   overflow-x: hidden;
   background-color: #CFD8DC;
@@ -8673,7 +8673,7 @@ body,
 html { height: 100%;}
 .nav .open > a, 
 .nav .open > a:hover, 
-.nav .open > a:focus {background-color: transparent;}
+.nav .open > a:focus {background-color: transparent;} */
 
 /*-------------------------------*/
 /*           Wrappers            */

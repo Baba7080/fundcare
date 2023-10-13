@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from frenchise import views
+from .views import *
 from django.contrib.auth import views as auth_views
 from .forms import LoginForm,  MyPasswordChangeForm, MyPasswordResetForm, MySetPasswordForm
 
@@ -9,41 +9,43 @@ from .forms import LoginForm,  MyPasswordChangeForm, MyPasswordResetForm, MySetP
 
 urlpatterns = [
     
-    path('', views.index, name='home'),
-    path('about/', views.about_view, name= 'about'),
-    path('services/', views.Services_view, name= 'services'),
-    path('blog/', views.blog_view, name= 'blog'),
-    path('blog-details/', views.blog_details_view, name= 'blog_details'),
-    path('contact/', views.contact_view, name= 'contact'),
+    path('', index, name='home'),
+    path('about/', about_view, name= 'about'),
+    path('services/', Services_view, name= 'services'),
+    path('blog/', blog_view, name= 'blog'),
+    path('blog-details/', blog_details_view, name= 'blog_details'),
+    path('contact/', contact_view, name= 'contact'),
 
-    path('admin-frenchise-dashboard/', views.frenchise_dashboard_admin_view, name= 'admin_frenchise'),
-    path('admin-employee-dashboard/', views.frenchise_employee_admin_view, name= 'admin_employee'),
-
-
+    path('admin-frenchise-dashboard/', frenchise_dashboard_admin_view, name= 'admin_frenchise'),
+    path('admin-employee-dashboard/', frenchise_employee_admin_view, name= 'admin_employee'),
 
 
-    path('emp-details/<int:empid>/', views.edit_employee_dashboard_view, name= 'emp_details'),
-    path('register/', views.frenchise_registration_view, name= 'register'),
-    path('profile/', views.profile, name= 'profile'),
 
-    path('dashboard/', views.dashboard, name= 'dashboard'),
-    path('alldata/<int:frenchid>', views.all_frenchise_employe_view, name= 'alldata'),
-    path('apply-loan/', views.apply_loan_view, name= 'apply_loan'),
 
-    path('Employee-registration/', views.employee_view, name= 'emp_registration'),
+    path('emp-details/<int:empid>/', edit_employee_dashboard_view, name= 'emp_details'),
+    path('register/', frenchise_registration_view, name= 'register'),
+    path('profile/', profile, name= 'profile'),
+
+    path('dashboard/', dashboard, name= 'dashboard'),
+    path('alldata/<int:frenchid>', all_frenchise_employe_view, name= 'alldata'),
+    path('apply-loan/', apply_loan_view, name= 'apply_loan'),
+
+    path('Employee-registration/', employee_view, name= 'emp_registration'),
     
-    path('employee/', views.employee_view, name= 'employee'),
-    path('confirmation/', views.frenchise_confirmation, name= 'confirmation'),
+    path('employee/', employee_view, name= 'employee'),
+    path('confirmation/', frenchise_confirmation, name= 'confirmation'),
 
-    path('frenchise-application/', views.frenchise_application_view, name= 'applyfrenchise'),
-    # path('frenchise-application/', views.frenchise_apply_view, name= 'a_frenchise'),
+    path('frenchise-application/', frenchise_application_view, name= 'applyfrenchise'),
+    # path('frenchise-application/', frenchise_apply_view, name= 'a_frenchise'),
 
 
     #Employee URLS
-    path('emp-dashboard/', views.employee_dashboard_view, name= 'e_dashboard'),
-    path('edit-emp-dashboard/', views.employee_dashboard_view, name= 'edit_e_dashboard'),
+    path('emp-dashboard/', employee_dashboard_view, name= 'e_dashboard'),
+    path('edit-emp-dashboard/', employee_dashboard_view, name= 'edit_e_dashboard'),
+    path('emp-overview/', employee_overview_view, name= 'e_overview'),
 
-    path('employee_data_chart/', views.employee_data_chart, name='employee_data_chart'),
+    path('employee_data_chart/', employee_data_chart, name='employee_data_chart'),
+    # path('employee_data_chart/', employee_data_chart, name='employee_data_chart'),
 
 
 
@@ -65,7 +67,7 @@ urlpatterns = [
     path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='frenchise/password_reset_complete.html')
         ,name='password_reset_complete'),
 
-    path('appllyloan',views.appllyloan,name='appllyloan'),
-    path('appllyinsurance',views.appllyloan,name='appllyinsurance'),
-    path('editfrenchise/<int:frenchid>',views.editfrenchise,name='editfrenchise')
+    path('appllyloan',appllyloan,name='appllyloan'),
+    path('appllyinsurance',appllyloan,name='appllyinsurance'),
+    path('editfrenchise/<int:frenchid>',editfrenchise,name='editfrenchise')
 ]
