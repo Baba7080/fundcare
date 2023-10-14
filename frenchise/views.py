@@ -460,3 +460,25 @@ def appllyloan(request):
         return render(request,'frenchise/apply_loan.html')
 
     return render(request,'frenchise/apply_loan.html')
+
+#Employee overview 
+def employee_overview_view(request):
+    return render(request, 'frenchise/employee_overview.html')
+
+
+
+
+# def frenchise_chart_view(request):
+#     if request.method == 'POST':
+#         print("date from to")
+
+#     total = {
+#         'toatal':"455",
+#         'success':"105"
+#     }
+#     chart = {
+#         'loan':'255',
+#         'insurance':'200',
+#         'demat':'204',
+#         'mutualFund':'255',
+#     }
