@@ -3,12 +3,19 @@
 {% block title %} Home {% endblock title %}
 
 {% block home-page %}
-
-
-
+<style>
+    .notification-box {
+        width: 300px; /* Adjust the width as needed */
+        min-height: 400px; /* Adjust the height as needed */
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        padding: -10px;
+    }
+    
+</style>
 <main>
     <br>
- 
+ {{data.total_loan}}
     <div id="wrapper">
         <div class="overlay"></div>
          
@@ -17,11 +24,12 @@
           <ul class="nav sidebar-nav">
             <div class="sidebar-header">
             <div class="sidebar-brand">
-                <a href="{% url 'e_overview' %}">Dashboard</a></div></div>
+                <a href="{% url 'f_overview' %}">Frenchise Overview</a></div></div>
             
             <!-- <li><a href="{% url 'dashboard' %}">Franchise Dashboard</a></li> -->
-            
-            <li><a href="{% url 'appllyinsurance' %}">Apply for Loans</a></li>
+            <li><a href="{% url 'e_dashboard' %}">Employee Details List</a></li>
+            <li><a href="{% url 'emp_registration' %}">Register Employee</a></li>
+            <!-- <li><a href="{% url 'appllyinsurance' %}">Apply for Loans</a></li>
             
             <div class="dropdown">
                 <li><a href="{% url 'appllyloan' %}">Apply for Insurance</a></li>
@@ -30,11 +38,11 @@
                   <li><a class="dropdown-item" href="#">Home Loan</a></li>
                   <li><a class="dropdown-item" href="#">Business Loan</a></li>
                 </ul>
-              </div>
-           </li>
+              </div> -->
+           <!-- </li>
            <li><a href="#services">Services</a></li>
            <li><a href="#contact">Contact</a></li>
-           <li><a href="#followme">Follow me</a></li>
+           <li><a href="#followme">Follow me</a></li> -->
            </ul>
        </nav>
              <!-- /#sidebar-wrapper -->
@@ -47,34 +55,36 @@
                      <span class="hamb-bottom"></span>
                  </button>
 
-                 <!-- calender -->
+               
+                            <!-- calender -->
                  <h3 class="title-3 text-center">Franchise</h3>
                  <div class="container-fluid">
-                    <div class="row justify-content-center align-items-center d-flex"> 
+                    <div class="row form-group form-inline d-block "> 
+                        <div class="justify-content-center align-items-center d-flex">
                         <!-- Center the form -->
                         <div class="col-lg-2">
-                            <div class="row">
+                            <div class="row ">
                                 <form method="post" action="" align-items-center d-flex>
                                     {% csrf_token %}
 
-                                    <div class="form-group">
-                                        <label for="from">From</label>
+                                    
+
+                                    <div class="form-group form-inline d-flex my-1">
+                                        <label for="from">From:</label>
                                         <input type="date" name="from" class="form-control form-control-sm">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="to">To</label>
+                                    <div class="form-group form-inline d-flex mx-4">
+                                        <label for="to">To:</label>
                                         <input type="date" name="to" class="form-control form-control-sm">
                                     </div>
-                                    <input type="submit" class="btn btn-primary px-4" value="Save Changes">
+                                    <input type="submit" class="btn btn-primary px-2 mx-3 my-2" value="Save Changes">
                                 </form>
                             </div>
                         </div>
-    
+                    </div>
                  </div>
-                 
-                 <!-- calender -->
-
-                 <!-- leads details card -->
+                
+                <!-- leads details card -->
                  <div class="container">
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
@@ -84,12 +94,14 @@
                                         <div class="stat-icon dib flat-color-1">
                                             <i class="pe-7s-cash"></i>
                                         </div>
+                                    {% for ad in data %}
                                         <div class="stat-content">
                                             <div class="text-left dib">
-                                                <div class="stat-text"><span class="count">50</span></div>
-                                                <div class="stat-heading">Total Employee</div>
+                                                <div class="stat-text"><span class="count">{{ad.total_sales}}</span></div>
+                                                <div class="stat-heading">Total Sales</div>
                                             </div>
                                         </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -102,12 +114,14 @@
                                         <div class="stat-icon dib flat-color-2">
                                             <i class="pe-7s-cart"></i>
                                         </div>
+                                        {% for ad in data %}
                                         <div class="stat-content">
                                             <div class="text-left dib">
-                                                <div class="stat-text"><span class="count">3435</span></div>
+                                                <div class="stat-text"><span class="count">{{ad.total_loan}}</span></div>
                                                 <div class="stat-heading">Loans</div>
                                             </div>
                                         </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -120,12 +134,14 @@
                                         <div class="stat-icon dib flat-color-3">
                                             <i class="pe-7s-browser"></i>
                                         </div>
+                                        {% for ad in data %}
                                         <div class="stat-content">
                                             <div class="text-left dib">
-                                                <div class="stat-text"><span class="count">349</span></div>
+                                                <div class="stat-text"><span class="count">{{ad.total_insurance}}</span></div>
                                                 <div class="stat-heading">Insurance</div>
                                             </div>
                                         </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -138,12 +154,14 @@
                                         <div class="stat-icon dib flat-color-4">
                                             <i class="pe-7s-users"></i>
                                         </div>
+                                        {% for ad in data %}
                                         <div class="stat-content">
                                             <div class="text-left dib">
-                                                <div class="stat-text"><span class="count">2986</span></div>
+                                                <div class="stat-text"><span class="count">{{ad.total_mf}}</span></div>
                                                 <div class="stat-heading">Mutual Fund</div>
                                             </div>
                                         </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -165,27 +183,27 @@
                                         <div class="recent-report3 m-b-40">
                                             <div class="title-wrap">
                                                 <h3 class="title-3 text-center">Generating Leads</h3>
-                                                <!-- <div class="filters m-b-55 d-flex"> -->
+                                                <div class="filters m-b-55 d-flex">
                                                     <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border mx-2">
-                                                        <!-- <select class="js-select2" name="property">
+                                                        <select class="js-select2" name="property">
                                                             <option selected="selected">Products Sales</option>
                                                             <option value="">Personal Loans</option>
                                                             <option value="">Home Loans</option>
                                                             <option value="">Business Loans</option>
                                                             <option value="">Mutual Funds</option>
                                                             <option value="">Insurance</option>
-                                                        </select> -->
-                                                        <!-- <div class="dropDownSelect2"></div> -->
+                                                        </select>
+                                                        <div class="dropDownSelect2"></div>
                                                     </div>
                                                     <div class="rs-select2--dark rs-select2--sm rs-select2--border">
-                                                        <!-- <select class="js-select2 au-select-dark" name="time">
+                                                        <select class="js-select2 au-select-dark" name="time">
                                                             <option selected="selected">All Time</option>
                                                             <option value="">By Month</option>
                                                             <option value="">By Day</option>
                                                         </select>
-                                                        <div class="dropDownSelect2"></div> -->
+                                                        <div class="dropDownSelect2"></div>
                                                     </div>
-                                                <!-- </div> -->
+                                                </div>
                                                 <div class="chart-info-wrap">
                                                     
                                                     <canvas id="myChart1" style="width:100%;max-width:700px"></canvas>
@@ -208,14 +226,14 @@
                                 <!-- CHART PERCENT-->
                                         <div class="chart-percent-6 m-b-40">
                                             <h3 class="title-3 m-b-25 text-center">Success Leads</h3>
-                                            <!-- <div class="chart-note m-b-5">
+                                            <div class="chart-note m-b-5">
                                                 <span class="dot dot--blue"></span>
                                                 <span>products</span>
                                             </div>
                                             <div class="chart-note">
                                                 <span class="dot dot--red"></span>
                                                 <span>services</span>
-                                            </div> -->
+                                            </div>
                                             <div class="chart-wrap m-t-60">
                                                 <canvas id="myChart2" style="width:100%;max-width:700px"></canvas>
                                             </div>
@@ -238,7 +256,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="title-3 text-center">Annual Growth</h3>
+                            <h3 class="title-3 text-center">Yearly Performance</h3>
                             <div class="row">
                                 <div class="col-lg-8">
                                     <div class="card-body">
@@ -247,35 +265,8 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <div class="card-body">
-                                        <div class="progress-box progress-1">
-                                            <h4 class="por-title">Visits</h4>
-                                            <div class="por-txt">96,930 Users (40%)</div>
-                                            <div class="progress mb-2" style="height: 5px;">
-                                                <div class="progress-bar bg-flat-color-1" role="progressbar" style="width: 40%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-box progress-2">
-                                            <h4 class="por-title">Bounce Rate</h4>
-                                            <div class="por-txt">3,220 Users (24%)</div>
-                                            <div class="progress mb-2" style="height: 5px;">
-                                                <div class="progress-bar bg-flat-color-2" role="progressbar" style="width: 24%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-box progress-2">
-                                            <h4 class="por-title">Unique Visitors</h4>
-                                            <div class="por-txt">29,658 Users (60%)</div>
-                                            <div class="progress mb-2" style="height: 5px;">
-                                                <div class="progress-bar bg-flat-color-3" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-box progress-2">
-                                            <h4 class="por-title">Targeted  Visitors</h4>
-                                            <div class="por-txt">99,658 Users (90%)</div>
-                                            <div class="progress mb-2" style="height: 5px;">
-                                                <div class="progress-bar bg-flat-color-4" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
+                                    <div class="card-body notification-box">
+                                       Your Notification
                                     </div> <!-- /.card-body -->
                                 </div>
                             </div> <!-- /.row -->
@@ -286,49 +277,8 @@
                 </div>
             </div>
         </div>
-        <!-- monthly growth Bar Charts start -->
 
-        <!--  Charts start -->
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="card-body">
-                    <h3 class="title-3 text-center">Annual Growth</h3>
-                        <div class="row">
-                            
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <!-- <canvas id="TrafficChart"></canvas>   -->
-                                        <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <!-- <canvas id="TrafficChart"></canvas>   -->
-                                        <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <!-- <canvas id="TrafficChart"></canvas>   -->
-                                        <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- /.row -->
-                    
-                    </div>
-                </div>
-                   
-            </div>
-        </div>
-
-    
+    <!-- monthly growth Bar Charts start -->
                 <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
                       <div class="modal-dialog">
                     <div class="modal-content">
@@ -351,6 +301,18 @@
                       <!-- /.modal-dialog --> 
                     </div>
              </div>
+             <!-- <div class="row mt-5">
+                <div class="col-lg-6">
+                    <div>
+                        <canvas id="myChart2" style="width:100%; max-width:700px"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="notification-box float-right ml-2">
+                        <p>This is your notification content. You can add more content here if needed.</p>
+                    </div>
+                </div>
+            </div> -->
              <!-- /#page-content-wrapper -->
      
          </div>
@@ -361,8 +323,9 @@
 {% block javascripttags %}
 
 <script>
-    var xValues = ["Success", "Total form Submitted"];
-    var yValues = [55, 13];
+    
+    var xValues = [];
+    var yValues = [];
     var barColors = [
       "#b91d47",
       "#00aba9",
@@ -370,7 +333,11 @@
       "#e8c3b9",
       "#1e7145"
     ];
-    
+    {% for ad in data %}
+        xValues.push("Success", "Total form Submitted");
+        yValues.push({{ad.total_sales}},{{ad.total_submit}});
+    {% endfor %}
+
     new Chart("myChart1", {
       type: "pie",
       data: {
@@ -391,8 +358,8 @@
 
 
 <script>
-    var xValues = ["Loans", "France", "Spain", "USA", "Argentina"];
-    var yValues = [55, 49, 44, 24, 15];
+    var xValues = [];
+    var yValues = [];
     var barColors = [
       "#b91d47",
       "#00aba9",
@@ -401,6 +368,12 @@
       "#1e7145"
     ];
     
+    {% for ad in data %}
+        xValues.push("insurance", "Loan", "Demat Account", "Mutual Fund");
+        yValues.push({{ad.total_insurance}},{{ad.total_loan}},{{ad.total_da}},{{ad.total_mf}});
+    {% endfor %}
+
+
     new Chart("myChart2", {
       type: "doughnut",
       data: {
@@ -422,14 +395,14 @@
 <!-- Bar growth chart start -->
 
 <script>
-    const xValues = ["January", "February", "March", "April", "May","June", "July", "August", "Sept", "Oct","Nov", "Dec"];
-    const yValues = [55, 49, 44, 24, 15, 55, 49, 44, 24, 15,55, 49];
-    const barColors = ["red", "green","blue","orange","brown","red", "green","blue","orange","brown",,"blue","orange"];
+    const xxValues = ["January", "February", "March", "April", "May","June", "July", "August", "Sept", "Oct","Nov", "Dec"];
+    const yyValues = [55, 49, 44, 24, 15, 55, 49, 44, 24, 15,55, 49];
+    const barsColors = ["red", "green","blue","orange","brown","red", "green","blue","orange","brown",,"blue","orange"];
     
     new Chart("myChart", {
       type: "bar",
       data: {
-        labels: xValues,
+        labels: xxValues,
         datasets: [{
           backgroundColor: barColors,
           data: yValues
@@ -446,6 +419,5 @@
     </script>   
 
 <!-- bar growth chart end -->
-
 
 {% endblock javascripttags %}

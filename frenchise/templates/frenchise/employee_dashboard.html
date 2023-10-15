@@ -14,29 +14,31 @@
         <div class="overlay"></div>
          
              <!-- Sidebar -->
-         <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
-          <ul class="nav sidebar-nav">
-            <div class="sidebar-header">
-            <div class="sidebar-brand">
-                <a href="{% url 'home' %}">Home</a></div></div>
-            
-            <li><a href="{% url 'dashboard' %}">Franchise Dashboard</a></li>
-            <li><a href="{% url 'employee' %}">Employee register</a></li>
-            
-            <div class="dropdown">
-                <li><a href="#about">Loans</a></li>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                  <li><a class="dropdown-item" href="#">Personal Loan</a></li>
-                  <li><a class="dropdown-item" href="#">Home Loan</a></li>
-                  <li><a class="dropdown-item" href="#">Business Loan</a></li>
-                </ul>
-              </div>
-           </li>
-           <li><a href="#services">Services</a></li>
-           <li><a href="#contact">Contact</a></li>
-           <li><a href="#followme">Follow me</a></li>
-           </ul>
-       </nav>
+             <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+                <ul class="nav sidebar-nav">
+                  <div class="sidebar-header">
+                  <div class="sidebar-brand">
+                      <a href="{% url 'f_overview' %}">Frenchise Overview</a></div></div>
+                  
+                  <!-- <li><a href="{% url 'dashboard' %}">Franchise Dashboard</a></li> -->
+                  <li><a href="{% url 'e_dashboard' %}">Employee Details List</a></li>
+                  <li><a href="{% url 'emp_registration' %}">Register Employee</a></li>
+                  <!-- <li><a href="{% url 'appllyinsurance' %}">Apply for Loans</a></li>
+                  
+                  <div class="dropdown">
+                      <li><a href="{% url 'appllyloan' %}">Apply for Insurance</a></li>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><a class="dropdown-item" href="#">Personal Loan</a></li>
+                        <li><a class="dropdown-item" href="#">Home Loan</a></li>
+                        <li><a class="dropdown-item" href="#">Business Loan</a></li>
+                      </ul>
+                    </div> -->
+                 <!-- </li>
+                 <li><a href="#services">Services</a></li>
+                 <li><a href="#contact">Contact</a></li>
+                 <li><a href="#followme">Follow me</a></li> -->
+                 </ul>
+             </nav>
              <!-- /#sidebar-wrapper -->
      
              <!-- Page Content -->
@@ -68,38 +70,44 @@
                                                     
                                                       <div class="card-body">
                                                         <i class="fa fa-pen fa-xs edit"></i>
-                                                        <form action=""  method="post" novalidate class="shadow p-5">
-                                                            {% csrf_token %}
-                                                            <div id="forms"></div>
-                                                            {% if messages %}
-                                                            {% for message in messages %}
-                                                            <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5"{% endif %}>{{message}}</p>
-                                                            {% endfor %}
-                                                            {% endif %}
+                                                        <table id="mytable" class="table">
+                                                            <thead>
+                                                              <tr>
+                                                                <th><input type="checkbox" id="checkall" /></th>
+                                                                <th>Name</th>
+                                                                
+                                                                <th>Email</th>
+                                                                <th>Username</th>
+                                                                <th style="width:25%">Tottal Sales</th>
+                                                                <th>Insurance</th>
+                                                                <th>Loan</th>
+                                                              </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for ad in e_data %}
+                                                              <tr>
+                                                                <td><input type="checkbox" class="checkthis" /></td>
+                                                                <td>{{ad.employee_id}}</td>
+                                                                
+                                                                <td>{{ad.email}}</td>
+                                                                <td>{{ad.username}}</td>
+                                                                <td>{{ad.total}}</td>
+                                                                <td>{{ad.insurance}}</td>
+                                                                <td>{{ad.loan}}</td>
+                                                                {% comment %} <td> {% endcomment %}
+                                                                    {% comment %} <div class="progress">
+                                                                        <div style="width: 60%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="red progress-bar">
+                                                                        <span>60%</span>
+                                                                       </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td><span class="label label-info">Pending</span></td> {% endcomment %}
+                                                              </tr>
+                                                              {% endfor %}
+                                                              
                                             
-                                                            <div class="form-group">
-                                                              <label for="exampleFormControlInput1">Employee ID</label>
-                                                              <input type="text" name="employee_id" class="form-control" id="exampleFormControlInput1" placeholder="Enter Your employee id" required>
-                                                          </div>
-                                                          <div class="form-group">
-                                                              <label for="exampleFormControlInput1">Enter Your email</label>
-                                                              <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter Your Email" required>
-                                                          </div>
-                                                          <div class="form-group">
-                                                              <label for="exampleFormControlInput1">Enter your Username</label>
-                                                              <input type="text" name="username" class="form-control" id="exampleFormControlInput1" placeholder="Enter Your Username" required>
-                                                          </div>
-                                                          <div class="form-group">
-                                                            <label for="exampleFormControlInput1">Enter Employee Name</label>
-                                                            <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Enter Username" required>
-                                                        </div>
-                                                          <div class="form-group">
-                                                            <label for="exampleFormControlInput1">Enter your Password</label>
-                                                            <input type="password" name="password" class="form-control" id="exampleFormControlInput1" placeholder="Enter Your password" required>
-                                                        </div>
-                                                            <input type="submit" value="Submit" class="btn btn-primary my-2">
-                                                          
-                                                        </form>
+                                                            </tbody>
+                                                        </table>
                                                        
                                                     
                                             

@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('admin-frenchise-dashboard/', frenchise_dashboard_admin_view, name= 'admin_frenchise'),
     path('admin-employee-dashboard/', frenchise_employee_admin_view, name= 'admin_employee'),
+    path('search-f/', frenchise_search_view, name= 'search_frenchise'),
 
 
 
@@ -42,6 +43,7 @@ urlpatterns = [
     #Employee URLS
     path('emp-dashboard/', employee_dashboard_view, name= 'e_dashboard'),
     path('edit-emp-dashboard/', employee_dashboard_view, name= 'edit_e_dashboard'),
+    path('f-overview/', frenchise_overview_view, name= 'f_overview'),
     path('emp-overview/', employee_overview_view, name= 'e_overview'),
 
     path('employee_data_chart/', employee_data_chart, name='employee_data_chart'),

@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from companystaff.models import *
+from .filters import frenchise_filter
 from datetime import datetime
 # Create your views here.
 # import matplotlib.pyplot as plt
@@ -19,6 +20,38 @@ from io import BytesIO
 import base64
 def index(request):
     return render(request, 'frenchise/index.html' )
+
+#admin Search
+def frenchise_search_view(request):
+    if request.method == 'POST':
+        search = request.POST.get('Search')
+        print(search)
+        filter_matches = ProfileFrenchise.objects.filter(email=search,number=search)
+
+        if filter_matches:
+            for match in filter_matches:
+                if match.email == search:
+                    # Do something when there is a match for email.
+                    print("email")
+                    return render(request, 'frenchise/admin_dashboard.html')
+                elif match.number == search:
+                    return render(request, 'frenchise/admin_dashboard.html')
+                    # Do something when there is a match for number.
+                    print("number")
+                    pass
+                # elif match.PAN == search:
+                #     print("PAN")
+                    # Do something when there is a match for PAN.
+                    pass
+            return redirect('dashboard')
+        else:
+            filter_matches = ProfileFrenchise.objects.filter()
+            # Do something when there is no match.
+            print("No matches found")
+            return render(request, 'frenchise/admin_dashboard.html', {'fsearch': filter_matches})  # Render a template with a message
+
+        # Add a default return statement in case none of the conditions are met
+        return HttpResponse("Internal server error", status=500)
 
 # Frenchise Registration
 def frenchise_registration_view(request):
@@ -310,7 +343,86 @@ def dashboard(request):
         f_register = frenchise_register_model.objects.filter(user=request.user)
         e_register = frenchise_employee_register_model.objects.filter(user=request.user)
 
-        return render(request, 'frenchise/frenchise_dashboard.html', {'e_register':e_register,'f_register':f_register})
+        all_data = []
+        for data in e_register:
+            u = data.user
+            usernames = data.username
+            userdataemp = User.objects.filter(username=usernames)
+            # print
+            for i in userdataemp:
+                usrnme = i.id
+            # loan data fiilter model
+            loandataActive = Loan.objects.filter(user=usrnme,status='Active')
+            loandata = Loan.objects.filter(user=usrnme)
+            loancount = loandata.count()
+            loandataInprogress = Loan.objects.filter(user=usrnme,status='In Progesss')
+            loandataCompleted = Loan.objects.filter(user=usrnme,status='Completed')
+            loandataRejected = Loan.objects.filter(user=usrnme,status='Rejected')
+            count_loan_active = loandataActive.count()
+            count_loan_InProgress = loandataInprogress.count()
+            count_loan_completed = loandataCompleted.count()
+            count_loan_rejected = loandataRejected.count()
+            # loan data fiilter model
+
+            InsurancedataActive = Insurance.objects.filter(user=usrnme,status='Active')
+            Insurancedata = Insurance.objects.filter(user=usrnme)
+            insurancecount = Insurancedata.count()
+            InsurancedataInprogress = Insurance.objects.filter(user=usrnme,status='In Progesss')
+            InsurancedataCompleted = Insurance.objects.filter(user=usrnme,status='Completed')
+            InsurancedataRejected = Insurance.objects.filter(user=usrnme,status='Rejected')
+            count_Insurance_active = InsurancedataActive.count()
+            count_Insurance_InProgress = InsurancedataInprogress.count()
+            count_Insurance_completed = InsurancedataCompleted.count()
+            count_Insurance_rejected = InsurancedataRejected.count()
+
+            Mutual_FunddataActive = Mutual_Fund.objects.filter(user=usrnme,status='Active')
+            Mutual_Funddata = Mutual_Fund.objects.filter(user=usrnme)
+            mutualfundcount = Mutual_Funddata.count()
+            Mutual_FunddataInprogress = Mutual_Fund.objects.filter(user=usrnme,status='In Progesss')
+            Mutual_FunddataCompleted = Mutual_Fund.objects.filter(user=usrnme,status='Completed')
+            Mutual_FunddataRejected = Mutual_Fund.objects.filter(user=usrnme,status='Rejected')
+            count_Mutual_Fund_active = Mutual_FunddataActive.count()
+            count_Mutual_Fund_InProgress = Mutual_FunddataInprogress.count()
+            count_Mutual_Fund_completed = Mutual_FunddataCompleted.count()
+            count_Mutual_Fund_rejected = Mutual_FunddataRejected.count()
+
+            Demat_AccountdataActive = Demat_Account.objects.filter(user=usrnme,status='Active')
+            Demat_Accountdata = Demat_Account.objects.filter(user=usrnme)
+            Demat_AccountdataInprogress = Demat_Account.objects.filter(user=usrnme,status='In Progesss')
+            Demat_AccountdataCompleted = Demat_Account.objects.filter(user=usrnme,status='Completed')
+            Demat_AccountdataRejected = Demat_Account.objects.filter(user=usrnme,status='Rejected')
+            count_Demat_Account_active = Demat_AccountdataActive.count()
+            count_Demat_Account_count = Demat_Accountdata.count()
+            count_Demat_Account_InProgress = Demat_AccountdataInprogress.count()
+            count_Demat_Account_completed = Demat_AccountdataCompleted.count()
+            count_Demat_Account_rejected = Demat_AccountdataRejected.count()
+            
+            total_sales =  count_loan_completed + count_Insurance_completed + count_Mutual_Fund_completed + count_Demat_Account_completed
+            print("upper loan")
+
+
+            total_loan = loancount
+            total_mf= mutualfundcount
+            total_insurance = insurancecount
+            total_da= count_Demat_Account_count
+
+            total_submit = total_loan + total_mf + total_insurance + total_da
+
+        
+
+            data_dict = {
+                'id': data.id,
+                'total_sales':total_sales,
+                'total_loan':total_loan ,
+                'total_mf': total_mf,
+                'total_insurance':total_insurance,
+                'total_da':total_da,
+                'total_submit':total_submit
+            }
+            all_data.append(data_dict)
+        print(all_data)
+        print("ljhjhjhg")
+        return render(request, 'frenchise/frenchise_overview.html', {'data':all_data})
     else:
         e_register = frenchise_employee_register_model.objects.filter(username=n)
         return render(request, 'frenchise/employesales.html', {'e_register': e_register})
@@ -464,6 +576,10 @@ def appllyloan(request):
 #Employee overview 
 def employee_overview_view(request):
     return render(request, 'frenchise/employee_overview.html')
+
+# Admin Overview frenchise and employee data
+def frenchise_overview_view(request):
+    return render(request, 'frenchise/frenchise_overview.html')
 
 
 

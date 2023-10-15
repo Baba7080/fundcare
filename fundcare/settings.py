@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'frenchise',
     'crispy_forms',
+    'django_filters',
     'companystaff',
     'crispy_bootstrap4',
 
